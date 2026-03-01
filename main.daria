@@ -1,8 +1,0 @@
-z = 30
-   ila z > 10:
-         weri("z kbir mn 10")
-    awla ila z == 10:
-         weri("z katsawi  10")
-    awla:
-         weri("z sghir mn 10")
- 

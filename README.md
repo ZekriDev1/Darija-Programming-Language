@@ -66,6 +66,39 @@ python darijalang.py main.daria
 | `no3` | `type` | Get object type |
 | `mn-l-7ta` | `range` | Range function |
 
+---
+
+## 🎨 Color Support
+
+You can add color to your console output using these built-in color constants:
+
+- `7mer`: Red
+- `khder`: Green
+- `sfer`: Yellow
+- `zreq`: Blue
+- `smawi`: Cyan
+- `bold`: Bold text
+- `rj3_no3`: Reset color (always use this at the end of a colored string!)
+
+**Example:**
+```python
+weri(khder + "Sba7 lkhir!" + rj3_no3)
+```
+
+---
+
+## 💡 Important Notes
+
+### Identifiers Starting with Numbers
+In Python, variable and function names **cannot** start with a number. Since Darija uses phonetic numbers (like `7ssab`, `3ref`), our interpreter automatically handles this for you:
+- Any Darija token starting with a number (e.g., `7ssab`) is automatically converted to a valid Python identifier (e.g., `_7ssab`) behind the scenes.
+- Pure numbers (like `0`, `10`, `3.14`) are preserved as-is.
+
+### Keywords as Variables
+Avoid naming your variables the same as keywords (e.g., don't name a variable `ila` or `smiya`) to avoid syntax errors in the generated code.
+
+---
+
 ### Data Types
 - `ra9m`: int
 - `ra9m_blfasila`: float

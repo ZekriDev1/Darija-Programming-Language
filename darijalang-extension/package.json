@@ -2,7 +2,7 @@
     "name": "darijalang",
     "displayName": "DarijaLang",
     "description": "Syntax highlighting and support for DarijaLang, a Python-like language using Darija keywords.",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "publisher": "AkramZekri",
     "repository": {
         "type": "git",
@@ -34,7 +34,7 @@
         "grammars": [
             {
                 "language": "darijalang",
-                "scopeName": "source.daria",
+                "scopeName": "source.darija",
                 "path": "./syntaxes/darijalang.tmLanguage.json"
             }
         ],

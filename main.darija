@@ -1,9 +1,0 @@
-x = 81
-
-
-ila x > 10: 
-    weri("x kbir mn 10")
-awla ila x == 10:
-    weri("x katsawi 10")
-awla:
-    weri("x sghir mn 10")

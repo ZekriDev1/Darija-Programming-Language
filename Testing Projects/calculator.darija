@@ -1,0 +1,26 @@
+weri(bold + smawi + "--- Calculette Darija ---" + rj3_no3)
+
+3rf 7ssab(ra9m_blfasila a, ra9m_blfasila b, klma operation):
+    ila operation == "+":
+        rj3 a + b
+    awla ila operation == "-":
+        rj3 a - b
+    awla ila operation == "*":
+        rj3 a * b
+    awla ila operation == "/":
+        ila b == 0:
+            rj3 "Ma ymknch tqsm 3la sifr!"
+        awla:
+            rj3 a / b
+    awla:
+        rj3 "Operation ma m3rofach!"
+
+
+num1 = ra9m_blfasila(dkhl("Dakhel ra9m l-awal: "))
+op = dkhl("Dakhel l-3amaliya (+, -, *, /): ")
+num2 = ra9m_blfasila(dkhl("Dakhel ra9m t-tani: "))
+
+
+natija = 7ssab(num1, num2, op)
+
+weri(bold + sfer + "Natija hya: " + klma(natija) + rj3_no3)

@@ -1,16 +1,13 @@
-# Boolean / None
 s7i7 = True
 ghalat = False
 makinax = None
 
-# Logical/Membership Operators
 w = and
 ola = or
 machi = not
 f = in
 l = in
 
-# Control Flow
 ila = if
 awla ila = elif
 awla = else
@@ -22,24 +19,20 @@ kml = continue
 ila tkhasr = except
 fla5er = finally
 
-# Functions & Classes
 3rf = def
 rj3 = return
 class = class
 bda = __init__
 rassi = self
 
-# Exceptions & Async
 t2kd = assert
 mchawri = async
 tsana = await
 
-# Imports
 jib = import
 mn = from
 smiya = as
 
-# Data Types
 ra9m = int
 ra9m_blfasila = float
 klma = str
@@ -52,7 +45,6 @@ memory-view = memoryview
 mn-l-7ta = range
 set-mjmd = frozenset
 
-# Built-in Functions
 weri = print
 toul = len
 no3 = type
@@ -79,13 +71,11 @@ id = id
 wach_mn_no3 = isinstance
 wach_mn_class = issubclass
 
-# Operators (kept same)
 + = +
 - = -
 * = *
 ** = **
 / = /
- // = //
 // = //
 % = %
 = = =
@@ -108,3 +98,11 @@ wach_mn_class = issubclass
 ~ = ~
 << = <<
 >> = >>
+
+7mer = color_7mer
+khder = color_khder
+sfer = color_sfer
+zreq = color_zreq
+smawi = color_smawi
+bold = color_bold
+rj3_no3 = color_reset

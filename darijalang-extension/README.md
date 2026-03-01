@@ -9,7 +9,7 @@ The project includes both a **Python-based interpreter** and a **VS Code extensi
 ## 🚀 Features
 
 -   **Darija Keywords**: Use terms like `3rf` (def), `weri` (print), and `ila` (if) to write your logic.
--   **Easy Execution**: Run any `.daria` file directly using the Python interpreter.
+-   **Easy Execution**: Run any `.darija` file directly using the Python interpreter.
 -   **VS Code Support**: Custom extension with syntax highlighting, auto-indentation, and a dedicated language icon.
 -   **Informative Errors**: Error messages are translated into Darija contexts (e.g., `Smiya ma m3rofach` for NameError).
 -   **Full Python Power**: Since it's built on Python, you have access to lists, integers, functions, and more.
@@ -65,6 +65,25 @@ python darijalang.py main.daria
 | `toul` | `len` | Get length |
 | `no3` | `type` | Get object type |
 | `mn-l-7ta` | `range` | Range function |
+
+---
+
+## 🎨 Color Support
+
+You can add color to your console output using these built-in color constants:
+
+- `7mer`: Red
+- `khder`: Green
+- `sfer`: Yellow
+- `zreq`: Blue
+- `smawi`: Cyan
+- `bold`: Bold text
+- `rj3_no3`: Reset color (always use this at the end of a colored string!)
+
+**Example:**
+```python
+weri(khder + "Sba7 lkhir!" + rj3_no3)
+```
 
 ### Data Types
 - `ra9m`: int

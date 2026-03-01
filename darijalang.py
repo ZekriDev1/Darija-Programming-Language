@@ -3,8 +3,17 @@ import re
 import os
 import traceback
 
+class Color:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RESET = '\033[0m'
+
 def load_sintax(file_path):
-    """Load mappings from sintax.txt."""
     mappings = {}
     if not os.path.exists(file_path):
         return {}
@@ -18,10 +27,9 @@ def load_sintax(file_path):
                     d, p = line.split(' = ', 1)
                     d_strip = d.strip()
                     if d_strip:
-                        # Only map if DIFFERENT to avoid duplication (e.g. == = ==)
                         if d_strip != p.strip():
                             mappings[d_strip] = p.strip()
-                elif '=' in line: # Fallback
+                elif '=' in line:
                     d, p = line.split('=', 1)
                     d_strip = d.strip()
                     if d_strip:
@@ -32,76 +40,68 @@ def load_sintax(file_path):
     return mappings
 
 def translate_line(line, mappings, keywords):
-    """Translate a single line of DarijaLang to Python."""
-    # Preserve indentation
     indent_match = re.match(r'^(\s*)', line)
     indent = indent_match.group(1) if indent_match else ""
     content = line[len(indent):]
     
-    # Skip empty lines or comments
     if not content or content.startswith('#'):
         return line
 
-    # 1. Handle function and class signatures specifically
-    # 3rf func_name(klma name, ra9m age):
-    func_pattern = r'^(3rf)\s+(\w+)\s*\((.*)\)\s*:'
+    func_pattern = r'^(3rf)\s+([a-zA-Z0-9_]+)\s*\((.*)\)\s*:'
     match = re.search(func_pattern, content)
     if match:
         func_keyword = match.group(1)
         func_name = match.group(2)
+        if func_name[0].isdigit():
+            func_name = "_" + func_name
         params_str = match.group(3)
         
         translated_params = []
         if params_str.strip():
             for p in params_str.split(','):
                 p_clean = p.strip()
-                # Special case: rassi (self)
                 if p_clean == 'rassi':
                     translated_params.append('self')
                     continue
                 
-                # Check for type annotation: 'klma name' -> 'name: str'
                 parts = p_clean.split()
                 if len(parts) == 2:
                     t, n = parts
                     t_py = mappings.get(t, t)
                     translated_params.append(f"{n}: {t_py}")
                 else:
-                    # Just replace keywords in param name if any (unlikely for param name but stay safe)
                     p_replaced = p_clean
                     for k in keywords:
                         if k == mappings[k]: continue
-                        # Use word boundaries \b for accuracy
-                        pattern = r'\b' + re.escape(k) + r'\b'
+                        pattern = r'(?<![a-zA-Z0-9_])' + re.escape(k) + r'(?![a-zA-Z0-9_])'
                         p_replaced = re.sub(pattern, mappings[k], p_replaced)
                     translated_params.append(p_replaced)
         
         return f"{indent}def {func_name}({', '.join(translated_params)}):"
 
-    # 2. Handle generic replacements outside of strings
-    # We split by strings to avoid replacing keywords inside quotes
     string_pattern = r'(".*?"|\'.*?\')'
     parts = re.split(string_pattern, content)
     new_parts = []
     for i, part in enumerate(parts):
-        if i % 2 == 0:  # Not in a string
-            # Apply all keyword mappings
+        if i % 2 == 0:
+            part = re.sub(r'(\w+)\+\+', r'\1 += 1', part)
+            part = re.sub(r'(\w+)\-\-', r'\1 -= 1', part)
+
             for k in keywords:
-                # If d == p, no need to replace (like + = +)
                 if k == mappings[k]:
                     continue
-                # Use raw string for pattern and re.escape for the keyword
-                # \b handles word boundaries (including Darija's numbers)
-                pattern = r'\b' + re.escape(k) + r'\b'
+                pattern = r'(?<![a-zA-Z0-9_])' + re.escape(k) + r'(?![a-zA-Z0-9_])'
                 part = re.sub(pattern, mappings[k], part)
+            
+            part = re.sub(r'\b(\d[a-zA-Z0-9_]*[a-zA-Z_][a-zA-Z0-9_]*)\b', r'_\1', part)
+            
             new_parts.append(part)
-        else:  # Inside a string
+        else:
             new_parts.append(part)
     
     return indent + "".join(new_parts)
 
 def get_darija_error(exception):
-    """Attempt to provide a Darija-friendly context for errors."""
     err_type = type(exception).__name__
     
     translations = {
@@ -122,27 +122,23 @@ def get_darija_error(exception):
 
 def main():
     if len(sys.argv) < 2:
-        print("Isti3mal: python darijalang.py <file.darija>")
+        print(f"{Color.YELLOW}Isti3mal: python darijalang.py <file.darija>{Color.RESET}")
         sys.exit(1)
 
     daria_file = sys.argv[1]
     if not os.path.exists(daria_file):
-        print(f"L-mlaf '{daria_file}' ma kaynx!")
+        print(f"{Color.RED}{Color.BOLD}L-mlaf '{daria_file}' ma kaynx!{Color.RESET}")
         sys.exit(1)
 
-    # 1. Load mappings
     mappings = load_sintax("sintax.txt")
     if not mappings:
-        # Fallback basic mappings if file missing or empty
         mappings = {
             "3rf": "def", "weri": "print", "rj3": "return", 
             "ila": "if", "awla": "else", "htta": "while", "3la": "for"
         }
 
-    # Keywords sorted by length (longest first to catch "awla ila" before "awla")
     keywords = sorted(mappings.keys(), key=len, reverse=True)
 
-    # 2. Read and translate code
     try:
         with open(daria_file, 'r', encoding='utf-8') as f:
             daria_lines = f.readlines()
@@ -153,32 +149,34 @@ def main():
 
         python_code = "\n".join(python_lines)
 
-        # 3. Execute the code
-        # We define a custom 'print' that can be replaced if needed, but 'weri' already maps to 'print'
-        
         global_scope = {
             "__name__": "__main__",
-            "__builtins__": __builtins__
+            "__builtins__": __builtins__,
+            "color_bold": Color.BOLD,
+            "color_reset": Color.RESET,
+            "color_7mer": Color.RED,
+            "color_khder": Color.GREEN,
+            "color_sfer": Color.YELLOW,
+            "color_zreq": Color.BLUE,
+            "color_smawi": Color.CYAN,
         }
         
         try:
             exec(python_code, global_scope)
         except Exception as e:
-            print("\n" + "!" * 40)
-            print("TKHASRET L-OMOUR (Runtime Error):")
-            print(get_darija_error(e))
-            print("-" * 40)
-            # Show the line that caused the error in DarijaLang if possible
+            print("\n" + Color.RED + "!" * 40 + Color.RESET)
+            print(f"{Color.RED}{Color.BOLD}TKHASRET L-OMOUR (Runtime Error):{Color.RESET}")
+            print(f"{Color.CYAN}{get_darija_error(e)}{Color.RESET}")
+            print(Color.RED + "-" * 40 + Color.RESET)
             tb = traceback.extract_tb(sys.exc_info()[2])
-            # The last entry usually points to the executed code
             for entry in reversed(tb):
                 if entry.filename == '<string>':
                     line_no = entry.lineno
                     if 0 < line_no <= len(daria_lines):
-                        print(f"L-khata2 f l-star {line_no}:")
-                        print(f"  > {daria_lines[line_no-1].strip()}")
+                        print(f"{Color.YELLOW}L-khata2 f l-star {line_no}:{Color.RESET}")
+                        print(f"  > {Color.BOLD}{daria_lines[line_no-1].strip()}{Color.RESET}")
                     break
-            print("!" * 40)
+            print(Color.RED + "!" * 40 + Color.RESET)
 
     except Exception as e:
         print(f"Mochkil fi l-qira2a dial l-mlaf: {e}")
