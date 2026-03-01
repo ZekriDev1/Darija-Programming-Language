@@ -1,0 +1,158 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "DarijaLang",
+    "scopeName": "source.daria",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#constants"
+        },
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#operators"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#builtins"
+        },
+        {
+            "include": "#types"
+        },
+        {
+            "include": "#definitions"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.number-sign.daria",
+                    "match": "#.*$"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.daria",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "match": "\\\\."
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.single.daria",
+                    "begin": "'",
+                    "end": "'",
+                    "patterns": [
+                        {
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        },
+        "constants": {
+            "patterns": [
+                {
+                    "name": "constant.language.daria",
+                    "match": "\\b(s7i7|ghalat|makinax)\\b"
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.daria",
+                    "match": "\\b(ila|awla\\s+ila|awla|3la|htta|hbs|kml|7awl|ila\\s+tkhasr|fla5er|rj3|jib|mn|smiya|mchawri|tsana)\\b"
+                },
+                {
+                    "name": "keyword.operator.logical.daria",
+                    "match": "\\b(w|ola|machi|f|l)\\b"
+                },
+                {
+                    "name": "keyword.declaration.daria",
+                    "match": "\\b(3rf|class)\\b"
+                },
+                {
+                    "name": "variable.language.self.daria",
+                    "match": "\\b(rassi)\\b"
+                }
+            ]
+        },
+        "builtins": {
+            "patterns": [
+                {
+                    "name": "support.function.daria",
+                    "match": "\\b(weri|toul|no3|dkhl|jm3|sghar|kbir|qimta|drb|mrtb|mqlb|3rd_m3a_rkm|rbd|bdl|sefi|koulchi|chi7aja|qra|khdem|fte7|ldir|3awn|id|wach_mn_no3|wach_mn_class|mn-l-7ta)\\b"
+                }
+            ]
+        },
+        "types": {
+            "patterns": [
+                {
+                    "name": "support.type.daria",
+                    "match": "\\b(ra9m|ra9m_blfasila|klma|s7i7_ghalat|lista|m3qad|byte|byte-array|memory-view|set-mjmd)\\b"
+                }
+            ]
+        },
+        "definitions": {
+            "patterns": [
+                {
+                    "match": "(3rf)\\s+([a-zA-Z_]\\w*)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.declaration.daria"
+                        },
+                        "2": {
+                            "name": "entity.name.function.daria"
+                        }
+                    }
+                },
+                {
+                    "match": "(class)\\s+([a-zA-Z_]\\w*)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.declaration.daria"
+                        },
+                        "2": {
+                            "name": "entity.name.type.class.daria"
+                        }
+                    }
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.float.daria",
+                    "match": "\\b\\d+\\.\\d+\\b"
+                },
+                {
+                    "name": "constant.numeric.integer.daria",
+                    "match": "\\b\\d+\\b"
+                }
+            ]
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.daria",
+                    "match": "(\\+|\\-|\\*|\\/|%|=|==|!=|>|<|>=|<=|\\+=|\\-=|\\*=|\\/=|%=|&|\\||\\^|~|<<|>>)"
+                }
+            ]
+        }
+    }
+}

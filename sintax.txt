@@ -1,0 +1,110 @@
+# Boolean / None
+s7i7 = True
+ghalat = False
+makinax = None
+
+# Logical/Membership Operators
+w = and
+ola = or
+machi = not
+f = in
+l = in
+
+# Control Flow
+ila = if
+awla ila = elif
+awla = else
+3la = for
+htta = while
+hbs = break
+kml = continue
+7awl = try
+ila tkhasr = except
+fla5er = finally
+
+# Functions & Classes
+3rf = def
+rj3 = return
+class = class
+bda = __init__
+rassi = self
+
+# Exceptions & Async
+t2kd = assert
+mchawri = async
+tsana = await
+
+# Imports
+jib = import
+mn = from
+smiya = as
+
+# Data Types
+ra9m = int
+ra9m_blfasila = float
+klma = str
+s7i7_ghalat = bool
+lista = list
+m3qad = complex
+byte = bytes
+byte-array = bytearray
+memory-view = memoryview
+mn-l-7ta = range
+set-mjmd = frozenset
+
+# Built-in Functions
+weri = print
+toul = len
+no3 = type
+dkhl = input
+jm3 = sum
+sghar = min
+kbir = max
+qimta = abs
+drb = round
+mrtb = sorted
+mqlb = reversed
+3rd_m3a_rkm = enumerate
+rbd = zip
+bdl = map
+sefi = filter
+koulchi = all
+chi7aja = any
+qra = eval
+khdem = exec
+fte7 = open
+ldir = dir
+3awn = help
+id = id
+wach_mn_no3 = isinstance
+wach_mn_class = issubclass
+
+# Operators (kept same)
++ = +
+- = -
+* = *
+** = **
+/ = /
+ // = //
+// = //
+% = %
+= = =
+== = ==
+!= = !=
+> = >
+< = <
+>= = >=
+<= = <=
++= = +=
+-= = -=
+*= = *=
+/= = /=
+%= = %=
+**= = **=
+///= = ///=
+& = &
+| = |
+^ = ^
+~ = ~
+<< = <<
+>> = >>
