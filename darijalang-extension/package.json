@@ -2,13 +2,19 @@
     "name": "darijalang",
     "displayName": "DarijaLang",
     "description": "Syntax highlighting and support for DarijaLang, a Python-like language using Darija keywords.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "AkramZekri",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AkramZekri/DarijaLang"
+    },
+    "license": "MIT",
     "engines": {
         "vscode": "^1.80.0"
     },
     "categories": [
-        "Programming Languages"
+        "Programming Languages",
+        "Debuggers"
     ],
     "icon": "images/logo.png",
     "contributes": {
@@ -20,7 +26,7 @@
                     "darija"
                 ],
                 "extensions": [
-                    ".daria"
+                    ".darija"
                 ],
                 "configuration": "./language-configuration.json"
             }
@@ -30,6 +36,43 @@
                 "language": "darijalang",
                 "scopeName": "source.daria",
                 "path": "./syntaxes/darijalang.tmLanguage.json"
+            }
+        ],
+        "debuggers": [
+            {
+                "type": "darijalang",
+                "label": "DarijaLang Debug",
+                "languages": [
+                    "darijalang"
+                ],
+                "initialConfigurations": [
+                    {
+                        "type": "python",
+                        "name": "L-khata2 (Debug Darija)",
+                        "request": "launch",
+                        "program": "${workspaceFolder}/darijalang.py",
+                        "args": [
+                            "${file}"
+                        ],
+                        "console": "integratedTerminal"
+                    }
+                ],
+                "configurationSnippets": [
+                    {
+                        "label": "DarijaLang: Launch Current File",
+                        "description": "Run the current .daria file using our interpreter.",
+                        "body": {
+                            "type": "python",
+                            "name": "Launch Darija",
+                            "request": "launch",
+                            "program": "${workspaceFolder}/darijalang.py",
+                            "args": [
+                                "${file}"
+                            ],
+                            "console": "integratedTerminal"
+                        }
+                    }
+                ]
             }
         ]
     }

@@ -9,7 +9,7 @@ The project includes both a **Python-based interpreter** and a **VS Code extensi
 ## 🚀 Features
 
 -   **Darija Keywords**: Use terms like `3rf` (def), `weri` (print), and `ila` (if) to write your logic.
--   **Easy Execution**: Run any `.darija` file directly using the Python interpreter.
+-   **Easy Execution**: Run any `.daria` file directly using the Python interpreter.
 -   **VS Code Support**: Custom extension with syntax highlighting, auto-indentation, and a dedicated language icon.
 -   **Informative Errors**: Error messages are translated into Darija contexts (e.g., `Smiya ma m3rofach` for NameError).
 -   **Full Python Power**: Since it's built on Python, you have access to lists, integers, functions, and more.

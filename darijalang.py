@@ -14,17 +14,19 @@ def load_sintax(file_path):
                 line = line.strip()
                 if not line or line.startswith('#'):
                     continue
-                # Use split by ' = ' to handle cases where '=' is the keyword
                 if ' = ' in line:
                     d, p = line.split(' = ', 1)
                     d_strip = d.strip()
                     if d_strip:
-                        mappings[d_strip] = p.strip()
+                        # Only map if DIFFERENT to avoid duplication (e.g. == = ==)
+                        if d_strip != p.strip():
+                            mappings[d_strip] = p.strip()
                 elif '=' in line: # Fallback
                     d, p = line.split('=', 1)
                     d_strip = d.strip()
                     if d_strip:
-                        mappings[d_strip] = p.strip()
+                        if d_strip != p.strip():
+                            mappings[d_strip] = p.strip()
     except Exception:
         return {}
     return mappings
@@ -68,8 +70,9 @@ def translate_line(line, mappings, keywords):
                     # Just replace keywords in param name if any (unlikely for param name but stay safe)
                     p_replaced = p_clean
                     for k in keywords:
-                        # Use word boundaries that include numbers like 3, 7, 9
-                        pattern = r'(?<![0-9a-zA-Z_])' + re.escape(k) + r'(?![0-9a-zA-Z_])'
+                        if k == mappings[k]: continue
+                        # Use word boundaries \b for accuracy
+                        pattern = r'\b' + re.escape(k) + r'\b'
                         p_replaced = re.sub(pattern, mappings[k], p_replaced)
                     translated_params.append(p_replaced)
         
@@ -87,7 +90,9 @@ def translate_line(line, mappings, keywords):
                 # If d == p, no need to replace (like + = +)
                 if k == mappings[k]:
                     continue
-                pattern = r'(?<![0-9a-zA-Z_])' + re.escape(k) + r'(?![0-9a-zA-Z_])'
+                # Use raw string for pattern and re.escape for the keyword
+                # \b handles word boundaries (including Darija's numbers)
+                pattern = r'\b' + re.escape(k) + r'\b'
                 part = re.sub(pattern, mappings[k], part)
             new_parts.append(part)
         else:  # Inside a string
@@ -117,7 +122,7 @@ def get_darija_error(exception):
 
 def main():
     if len(sys.argv) < 2:
-        print("Isti3mal: python darijalang.py <file.daria>")
+        print("Isti3mal: python darijalang.py <file.darija>")
         sys.exit(1)
 
     daria_file = sys.argv[1]
